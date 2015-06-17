@@ -41,7 +41,7 @@ $ whoami | ntee -a i-wont-be-overwritten.txt
 I added an `-s`/`--suppress` option to suppress output to stdout. This meant to be used on npm scripts:
 
 ```bash
-$ echo "Nothing will be shown in screen" | ntee but-it-will-be-saved-here.txt
+$ echo "Nothing will be shown in screen" | ntee -s but-it-will-be-saved-here.txt
 ```
 
 You can always pipe:

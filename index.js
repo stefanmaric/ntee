@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var cli     = require('cli');
+var cli     = require('cli').enable('version');;
 var fs      = require('fs');
 var path    = require('path');
 var cwd     = process.cwd();

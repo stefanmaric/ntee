@@ -1,0 +1,34 @@
+{
+  "name": "ntee",
+  "version": "1.0.0",
+  "description": "Portable Unix shell command 'tee', with some extras - read from standard input and write to standard output and files",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "test": "echo 'success' | ntee .test.result"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stefanmaric/ntee.git"
+  },
+  "keywords": [
+    "tee",
+    "cli",
+    "stdin",
+    "stdout",
+    "redirect",
+    "shell",
+    "redirection",
+    "npm",
+    "script"
+  ],
+  "author": "Stefan Maric <me@stefanmaric.com> (http://stefanmaric.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stefanmaric/ntee/issues"
+  },
+  "homepage": "https://github.com/stefanmaric/ntee#readme",
+  "dependencies": {
+    "cli": "^0.8.0"
+  }
+}

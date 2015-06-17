@@ -1,0 +1,16 @@
+# Linux
+*~
+.directory
+.Trash-*
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Dependency directory
+node_modules

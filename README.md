@@ -35,6 +35,7 @@ ntee [OPTIONS] [FILE]
 
 Options:
   -a, --append           append to the given FILEs, do not overwrite
+  -i, --ignore-interrupts ignore interrupt signals
   -s, --suppress         do NOT output to stdout
   -v, --version          Display the current version
   -h, --help             Display help and usage details
@@ -51,7 +52,9 @@ Will print current user to stdout and also to `file1.txt` and `file2.txt`. Note 
 $ whoami | ntee -a i-wont-be-overwritten.txt
 ```
 
-I added an `-s`/`--suppress` option to suppress output to stdout. This meant to be used on npm scripts:
+`-i`/`--ignore-interrupts` will prevent <kbd>CTRL</kbd>+<kbd>C</kbd> from killing `ntee`. Won't work on windows.
+
+I also added an `-s`/`--suppress` option to suppress output to stdout. This meant to be used on npm scripts:
 
 ```bash
 $ echo "Nothing will be shown in screen" | ntee -s but-it-will-be-saved-here.txt

@@ -3,6 +3,19 @@ ntee
 
 Portable Unix shell command `tee`, with some extras - read from standard input and write to standard output and files.
 
+## TL;DR
+
+`gulp.dest()` in middle of a pipe? NPM scripts can do as well:
+
+```json
+{
+  "scripts": {
+    "less": "lessc main.less | postcss --use autoprefixer | ntee main.css |  cleancss > main.min.css"
+  }
+}
+
+```
+
 ## Install
 
 ```bash

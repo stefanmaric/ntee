@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var cli     = require('cli').enable('version').setApp('./package.json');
+var cli     = require('cli').enable('version').setApp('ntee', '1.1.4');
 var fs      = require('fs');
 var path    = require('path');
 var cwd     = process.cwd();

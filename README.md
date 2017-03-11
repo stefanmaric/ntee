@@ -46,7 +46,7 @@ Options:
 $ whoami | ntee file1.txt file2.txt
 ```
 
-Will print current user to stdout and also to `file1.txt` and `file2.txt`. Note that if these files already existed, they will be overwritten. Use `-a`/`--append` to avoid it, just like you would do with Richard Stallman's `tee`:
+Will print current user to stdout and also to `file1.txt` and `file2.txt`. Note that if these files already exist, they will be overwritten. Use `-a`/`--append` to avoid it, just like you would do with Richard Stallman's `tee`:
 
 ```bash
 $ whoami | ntee -a i-wont-be-overwritten.txt

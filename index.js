@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var cli     = require('cli').enable('version').setApp('ntee', '1.1.5');
+var cli     = require('cli').enable('version').setApp('ntee', '1.2.0');
 var fs      = require('fs');
 var path    = require('path');
 var cwd     = process.cwd();

@@ -14,3 +14,7 @@ pids
 
 # Dependency directory
 node_modules
+
+# lock files
+package-lock.json
+yarn.lock

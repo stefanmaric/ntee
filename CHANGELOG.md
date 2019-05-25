@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+
+## v2.0.0 - 2019-05-26
+
 - Rewrite without dependencies
   - It now properly streams data. Before, all stdin data was buffered in memory.
 - Add prettier and editorconfig files

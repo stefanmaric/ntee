@@ -28,7 +28,5 @@
     "url": "https://github.com/stefanmaric/ntee/issues"
   },
   "homepage": "https://github.com/stefanmaric/ntee#readme",
-  "dependencies": {
-    "cli": "^1.0.1"
-  }
+  "dependencies": {}
 }

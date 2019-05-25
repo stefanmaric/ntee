@@ -1,43 +1,96 @@
 #!/usr/bin/env node
 
-var cli     = require('cli').enable('version').setApp('ntee', '1.2.0');
-var fs      = require('fs');
-var path    = require('path');
-var cwd     = process.cwd();
-var options = cli.parse({
-  'append':            ['a', 'append to the given FILEs, do not overwrite'],
-  'ignore-interrupts': ['i', 'ignore interrupt signals'],
-  'suppress':          ['s', 'do NOT output to stdout']
-});
-var fsWriteFunc = options.append ? 'appendFile' : 'writeFile';
+const { resolve } = require('path')
+const { createWriteStream } = require('fs')
 
+const CWD = process.cwd()
+const FLAGS = ['append', 'help', 'ignoreInterrupts', 'suppress', 'version']
+const VERSION = require(resolve(__dirname, 'package.json')).version
+const HELP = `
+Usage:
+  ntee [OPTION]... FILE...
 
-function writeToFiles (data, files) {
-  if (!files.length) {
-    return output(data);
-  }
+  Copy standard input to each FILE, and also to standard output.
 
-  fs[fsWriteFunc](path.resolve(cwd, files.shift()), data, function (err) {
-    if (err) throw err;
-    writeToFiles(data, files);
-  });
+Options:
+  -a, --append              append to the given FILEs, do not overwrite
+  -i, --ignore-interrupts   ignore interrupt signals
+  -s, --suppress            do not output to stdout
+  -v, --version             display the current version
+  -h, --help                display help and usage details
+`
 
+const dashToCamel = str => str.replace(/-([a-z])/g, m => m[1].toUpperCase())
+
+const throwArgError = arg => {
+  console.log(`ntee: unrecognized option '${arg}'`)
+  console.log(`Try 'ntee --help' for more information.`)
+  process.exit(1)
 }
 
-function output (data) {
-  if (!options.suppress) {
-    cli.output(data);
+const parseArgs = argv => {
+  const args = argv.slice(2)
+  const result = { files: [] }
+
+  while (args.length) {
+    const next = args.shift()
+
+    if (next.startsWith('--')) {
+      const normalized = dashToCamel(next.slice(2))
+
+      if (FLAGS.includes(normalized)) {
+        result[normalized] = true
+      } else {
+        throwArgError(next)
+      }
+    } else if (next.startsWith('-')) {
+      const shortFlags = next.slice(1).split('')
+
+      shortFlags.forEach(shortFlag => {
+        const match = FLAGS.find(flag => flag.startsWith(shortFlag))
+
+        if (match) {
+          result[match] = true
+        } else {
+          throwArgError(`-${shortFlag}`)
+        }
+      })
+    } else {
+      result.files.push(next)
+    }
   }
+
+  return result
 }
 
-function interceptInt () {
-  if (!options['ignore-interrupts']) {
-    process.exit();
-  }
+const options = parseArgs(process.argv)
+
+if (options.help) {
+  console.log(HELP)
+  process.exit(0)
 }
 
-process.on('SIGINT', interceptInt);
+if (options.version) {
+  console.log(VERSION)
+  process.exit(0)
+}
 
-cli.withStdin(function (stdin) {
-  writeToFiles(stdin, cli.args);
-});
+process.on('SIGINT', () => {
+  if (!options.ignoreInterrupts) {
+    process.exit(0)
+  }
+})
+
+const fileStreams = options.files
+  .map(relativePath => resolve(CWD, relativePath))
+  .map(absolutePath =>
+    createWriteStream(absolutePath, { flags: options.append ? 'a' : 'w' })
+  )
+
+if (!options.suppress) {
+  process.stdin.pipe(process.stdout)
+}
+
+fileStreams.forEach(writableStream => {
+  process.stdin.pipe(writableStream)
+})
